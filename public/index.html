@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Welcome to the Daily Grind!</h1>
+    <h2>Fun Fact of the Day</h2>
+    <p id="fun-fact">Loading...</p>
+    <button id="new-fact">Get another fact</button>
+
+    <script>
+        const factEl = document.getElementById('fun-fact');
+
+        async function loadFact() {
+            factEl.textContent = 'Loading...';
+            try {
+                const res = await fetch('/api/fun-fact');
+                const data = await res.json();
+                factEl.textContent = res.ok ? data.fact : data.message;
+            } catch (err) {
+                factEl.textContent = 'Could not load a fun fact.';
+            }
+        }
+
+        document.getElementById('new-fact').addEventListener('click', loadFact);
+        loadFact();
+    </script>
+</body>
+</html>
